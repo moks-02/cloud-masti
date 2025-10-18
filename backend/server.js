@@ -79,8 +79,8 @@ connectDB();
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📱 Frontend URL: http://localhost:${PORT}`);
-    console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
+    console.log('📱 Frontend:*');
+    console.log('🔗 API: http://3.111.33.216:3000/api');
 });
 
 module.exports = app;

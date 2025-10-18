@@ -65,8 +65,8 @@ function checkBackendDependencies() {
 
 function startServer() {
     console.log('🔥 Starting Express server...');
-    console.log('📱 Frontend: http://localhost:3000');
-    console.log('🔗 API: http://localhost:3000/api');
+    console.log('📱 Frontend:*');
+    console.log('🔗 API: http://3.111.33.216:3000/api');
     console.log('');
 
     // Try to use nodemon if available, otherwise use node
