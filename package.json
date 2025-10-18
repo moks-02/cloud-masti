@@ -1,0 +1,37 @@
+{
+  "name": "expense-tracker-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack expense tracker with separate frontend and backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && live-server --port=3001",
+    "install-all": "cd backend && npm install"
+  },
+  "keywords": [
+    "expense-tracker",
+    "fullstack",
+    "express",
+    "nodejs"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.0",
+    "validator": "^13.11.0",
+    "express-rate-limit": "^6.10.0",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.0"
+  }
+}
