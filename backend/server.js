@@ -4,21 +4,25 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
-// Import routes from backend folder
+// Import routes
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const categoryRoutes = require('./routes/categories');
 const analyticsRoutes = require('./routes/analytics');
 
-// Import middleware from backend folder
+// Import middleware
 const { authenticateToken } = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 
-// Initialize Express app
+// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Frontend directory (move before any usage)
+const frontendDir = path.resolve(__dirname, '..', 'frontend');
 
 // Security middleware
 app.use(helmet());
@@ -26,12 +30,10 @@ app.use(helmet());
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 100, // limit each IP
     message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/api/', limiter);
-
-app.use('/static', express.static(frontendDir));
 
 // CORS configuration
 app.use(cors({
@@ -46,10 +48,8 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-const frontendDir = path.resolve(__dirname, '..', 'frontend');
-
-// Serve static files (frontend)
-app.use(express.static(frontendDir));
+// Serve static files (CSS, JS, images)
+app.use('/static', express.static(path.join(frontendDir, 'static')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -57,7 +57,7 @@ app.use('/api/transactions', authenticateToken, transactionRoutes);
 app.use('/api/categories', authenticateToken, categoryRoutes);
 app.use('/api/analytics', authenticateToken, analyticsRoutes);
 
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
@@ -66,7 +66,7 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve frontend for any non-API routes
+// Serve frontend for all non-API routes
 app.get('*', (req, res) => {
     res.sendFile(path.join(frontendDir, 'index.html'));
 });
@@ -74,15 +74,13 @@ app.get('*', (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Database connection (MongoDB)
+// Database connection
 const connectDB = require('./config/database');
 connectDB();
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log('📱 Frontend:*');
-    console.log('🔗 API: http://3.111.33.216:3000/api');
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server is running on http://0.0.0.0:${PORT}`);
+    console.log(`📱 Frontend: http://3.111.33.216:${PORT}`);
+    console.log(`🔗 API Base URL: http://3.111.33.216:${PORT}/api`);
 });
-
-module.exports = app;
