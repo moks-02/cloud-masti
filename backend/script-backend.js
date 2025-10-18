@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://3.111.33.216:3000/api';
 
 // API Helper class
 class API {
